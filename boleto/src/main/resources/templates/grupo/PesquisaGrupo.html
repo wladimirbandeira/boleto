@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="'layout/LayoutPadrao'">
+
+<head>
+	<title>Lista de Grupos</title>
+</head>
+
+<section layout:fragment="conteudo">
+	
+	
+   <div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="clearfix">
+			   			<h1 class="panel-title aw-titulo-panel">Pesquisa de Grupos</h1>
+			   			<a class="btn btn-link aw-link-panel" th:href="@{/grupos/novo}">Novo Grupo</a>
+			   		</div>
+			   	</div>
+		      	
+		      	
+	
+		      	
+		      	
+      		   		<div class="table-responsive">
+				      	<div class="panel-body">
+				      		<table class="table table-bordered table-striped">
+				      			<thead>
+				      				<tr>
+				      					<th>Código do Grupo</th>
+				      					<th class="text-center col-md-2">Código do Grupo</th>
+				      					<th class="text-center col-md-2">Nome do Grupo</th>
+				      				</tr>
+				      			</thead>
+				      			<tbody>
+				      				<tr th:each="grupo: ${grupos}">
+				      					<td class="text-left" th:text="${grupo.codigo}"></td>
+										<td class="text-center" th:text="${grupo.codigogrupo}"></td>	
+				      					<td class="text-center" th:text="${grupo.nome}"></td>
+				      					<td class="text-center">
+											<a class="btn btn-link btn-xs" th:href="@{/grupos/{codigo}(codigo=${grupo.codigo})}" 
+					   								title="Editar" rel="tooltip" data-placement="top">
+					   							<span class="glyphicon glyphicon-pencil"></span>
+					   						</a>
+<!-- 					   						<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal" -->
+<!-- 					   								th:attr="data-codigo=${boleto.codigo}, data-descricao=${boleto.comentario}" -->
+<!-- 					   								title="Excluir" rel="tooltip" data-placement="top"> -->
+<!-- 					   							<span class="glyphicon glyphicon-remove"></span> -->
+<!-- 					   						</a> -->
+
+					      				</td>
+				      				
+<!-- 				      				</tr>     -->
+<!-- 				      				<tr> -->
+				      					<td colspan="6" th:if="${#lists.isEmpty(grupos)}">Nenhum boleto foi encontrado</td>
+				      				</tr>
+				      			</tbody>
+				      		</table>
+				      	</div>
+				  </div>
+   </div>
+</section>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="'layout/LayoutPadrao'">
+
+<head>
+	<title>Lista de Cheques</title>
+</head>
+
+<section layout:fragment="conteudo">
+	
+	
+   <div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="clearfix">
+			   			<h1 class="panel-title aw-titulo-panel">Pesquisa de Cheques</h1>
+			   			<a class="btn btn-link aw-link-panel" th:href="@{/boleto/novo}">Novo Cheque</a>
+			   		</div>
+			   	</div>
+		      	
+		      	
+		 <div class="panel-body">
+	   		<form method="GET" class="form-horizontal">
+	   			<div class="form-group">
+	   				<div class="col-sm-4">
+	   					<div class="input-group">
+	   						<input class="form-control" placeholder="Qual Cheque você está procurando?"
+	   							autofocus="autofocus"></input>
+	   						<span class="input-group-btn">
+	   							<button type="submit" class="btn btn-default">
+	   								<i class="glyphicon glyphicon-search"></i>
+	   							</button>
+	   						</span>
+	   					</div>
+	   				</div>
+	   			</div>
+	   		</form>
+		 </div>     	
+		      	
+		      	
+		      	
+      		   		<div class="table-responsive">
+				      	<div class="panel-body">
+				      		<table class="table table-bordered table-striped">
+				      			<thead>
+				      				<tr>
+				      					<th>Comentários</th>
+				      					<th class="text-center col-md-2">Data do Cheque</th>
+				      					<th class="text-right col-md-2">Valor</th>
+				      					<th class="text-center col-md-2">Número da Pasta</th>
+				      					<th class="text-center col-md-2">Status do Cheque</th>
+				      					<th class="col-md-1"></th>
+				      				</tr>
+				      			</thead>
+				      			<tbody>
+				      				<tr th:each="boleto: ${boletos}">
+				      					<td class="text-left" th:text="${boleto.comentario}"></td>
+				      					<td class="text-center" th:text="${{boleto.dataBoleto}}"></td>
+				      					<td class="text-right" th:text="|R$ ${{boleto.valor}}|"></td>
+				      					<td class="text-center" th:text="${boleto.numero_pasta}"></td>
+				      					
+				      					<td class="text-center" th:attr="data-role=${boleto.codigo}">
+				      						<span class="label" th:text="${boleto.status.descricao}" 
+				      						th:classappend="${boleto.pendente ? 'label-danger' : 'label-success'}"></span>
+				      					</td>
+					      				<td class="text-center">
+											<a class="btn btn-link btn-xs" th:href="@{/boleto/{codigo}(codigo=${boleto.codigo})}" 
+					   								title="Editar" rel="tooltip" data-placement="top">
+					   							<span class="glyphicon glyphicon-pencil"></span>
+					   						</a>
+					   						<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
+					   								th:attr="data-codigo=${boleto.codigo}, data-descricao=${boleto.comentario}"
+					   								title="Excluir" rel="tooltip" data-placement="top">
+					   							<span class="glyphicon glyphicon-remove"></span>
+					   						</a>
+					   						<a class="btn btn-link btn-xs js-atualizar-status" th:if="${boleto.pendente}"
+					   								title="Pago" rel="tooltip" data-placement="top"
+					   								th:attr="data-codigo=${boleto.codigo}"
+					   								th:href="@{/boleto/{codigo}/receber(codigo=${boleto.codigo})}">
+			   										<span class="glyphicon glyphicon-check"></span>
+			   								</a>
+					      				</td>
+				      				
+				      				</tr>    
+				      				<tr>
+				      					<td colspan="6" th:if="${#lists.isEmpty(boletos)}">Nenhum boleto foi encontrado</td>
+				      				</tr>
+				      			</tbody>
+				      		</table>
+				      	</div>
+				  </div>
+      	<div layout:include="/boleto/DialogoConfirmacaoExclusao"></div>
+   </div>
+</section>
+
+</html>
